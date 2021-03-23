@@ -1,0 +1,29 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:SampleApp.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:lv="clr-namespace:Aldwych.Controls;assembly=Aldwych.LogView"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="SampleApp.Views.MainWindow"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="SampleApp">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+  <DockPanel LastChildFill="True">
+    <StackPanel DockPanel.Dock="Bottom" Spacing="10" Orientation="Horizontal" Margin="10">
+      <Button Content="Add Info" Command="{Binding AddInfoCommand}"/>
+      <Button Content="Add Trace" Command="{Binding AddTraceCommand}"/>
+      <Button Content="Add Error" Command="{Binding AddErrorCommand}"/>
+      <Button Content="Add Critical" Command="{Binding AddCriticalCommand}"/>
+      <Button Content="Add None" Command="{Binding AddNoneCommand}"/>
+      <Button Content="Add Warning" Command="{Binding AddWarningCommand}"/>
+    </StackPanel>
+    
+    <lv:LogView/>
+    
+  </DockPanel>
+</Window>
