@@ -5,6 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:lv="clr-namespace:Aldwych.Controls;assembly=Aldwych.LogView"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        Width="1000"
+        Height="600"
         x:Class="SampleApp.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
         Title="SampleApp">
