@@ -17,17 +17,22 @@ var logger = provider.CreateLogger("App");
 logger.LogInformation("info test");
 ```
 
-
+## LogView Control
+```xml
+<lv:LogView x:Name="logView" LogLevelFilter="{Binding #filterCmb.SelectedIndex, Source=PropertyChanged}" />
+```
 
 ## Basic Theme 
 
 ### Usage
 Edit the App.axaml file to look like the following: 
 ```xml
-<Application.Styles>
-    <FluentTheme Mode="Dark"/>
-    <StyleInclude Source="avares://Aldwych.LogView/BasicTheme.axaml"/>
-</Application.Styles>
+    <Application.Styles>
+        <FluentTheme Mode="Dark"/>
+        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Default.xaml"/>
+        <StyleInclude Source="avares://Aldwych.LogView/BasicTheme.axaml"/>
+      <StyleInclude Source="avares://Aldwych.LogView/Styles/LogView.axaml"/>
+    </Application.Styles>
 ```
 ### Resource Names 
 You can tweak the basic theme by overriding the resources listed below.
