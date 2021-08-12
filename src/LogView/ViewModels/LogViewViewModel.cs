@@ -1,25 +1,25 @@
 ﻿using Avalonia.Controls;
+
 using DynamicData;
 using DynamicData.Binding;
 using ReactiveUI;
+
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Reactive.Linq;
 
 namespace Aldwych.Logging.ViewModels
 {
-    internal class LogViewViewModel : ReactiveObject
+    public class LogViewViewModel : ReactiveObject
     {
-        //public ObservableCollection<LogItemViewModel> LogItems { get; private set; }
-
-
         public ReadOnlyObservableCollection<LogItemViewModel> LogItems { get; }
 
-        int selctedIndex;
-        public int SelectedIndex
+        object selectedItem;
+        public object SelectedItem
         {
-            get => selctedIndex;
-            set => this.RaiseAndSetIfChanged(ref selctedIndex, value);
+            get => selectedItem;
+            set => this.RaiseAndSetIfChanged(ref selectedItem, value);
         }
 
         private bool showLogLevel;
@@ -51,35 +51,23 @@ namespace Aldwych.Logging.ViewModels
 
         public LogViewViewModel()
         {
-
             var sl = LogCatcher.LogEntryObservable.ToObservableChangeSet(limitSizeTo: 2000).AsObservableList();
             var dynamicFilter = this.WhenAnyValue(x => x.FilterSelectedIndex).Select(x => CreatePredicate(x));
 
-
-
             var loader = sl.Connect().DisposeMany().Filter(dynamicFilter).Sort(SortExpressionComparer<LogItemViewModel>.Ascending(i => i.Created)).Bind(out var logItems).Subscribe();
             LogItems = logItems;
-            LogCatcher.LogEntryObservable.Subscribe(x => SelectedIndex = LogItems.Count -1);
-
+            LogCatcher.LogEntryObservable.Subscribe(x => SelectedItem = LogItems.LastOrDefault());
             var updateSelectedIndex = this.WhenAnyValue(x => x.FilterSelectedIndex).Do(_ => UpdateSelectedItem()).Subscribe();
 
-
-            LogCatcher.Append(new LogItemViewModel("test", Microsoft.Extensions.Logging.LogLevel.None, new Microsoft.Extensions.Logging.EventId(5052, "omg"), this, null, "this is a test"));
-            LogCatcher.Append(new LogItemViewModel("test", Microsoft.Extensions.Logging.LogLevel.Warning, new Microsoft.Extensions.Logging.EventId(5052, "omg"), this, null, "this is a test"));
-            LogCatcher.Append(new LogItemViewModel("test", Microsoft.Extensions.Logging.LogLevel.Trace, new Microsoft.Extensions.Logging.EventId(5052, "omg"), this, null, "this is a test"));
-            LogCatcher.Append(new LogItemViewModel("test", Microsoft.Extensions.Logging.LogLevel.Information, new Microsoft.Extensions.Logging.EventId(5052, "omg"), this, null, "this is a test"));
-            LogCatcher.Append(new LogItemViewModel("test", Microsoft.Extensions.Logging.LogLevel.Error, new Microsoft.Extensions.Logging.EventId(5052, "omg"), this, null, "this is a test"));
-            LogCatcher.Append(new LogItemViewModel("test", Microsoft.Extensions.Logging.LogLevel.Critical, new Microsoft.Extensions.Logging.EventId(5052, "omg"), this, null, "this is a test"));
+            //var lvm = new LogItemViewModel("test", Microsoft.Extensions.Logging.LogLevel.None, new Microsoft.Extensions.Logging.EventId(5052, "omg"), this, null, "this is a test");
+            //LogCatcher.Append(lvm);
 
             ShowLogLevel = true;
-
-
-
         }
 
         void UpdateSelectedItem()
         {
-           SelectedIndex = LogItems.Count - 1;
+            //selectedItem = LogItems.LastOrDefault();
         }
     }
 }

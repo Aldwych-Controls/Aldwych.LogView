@@ -1,10 +1,10 @@
 ﻿using System;
-using Aldwych.Logging.ViewModels;
 using Microsoft.Extensions.Logging;
-
 
 namespace Aldwych.Logging
 {
+    using Aldwych.Logging.ViewModels;
+
     public class LogControlLogger : ILogger
     {
         private readonly string _name;
@@ -36,7 +36,7 @@ namespace Aldwych.Logging
             if (_config.EventId == 0 || _config.EventId == eventId.Id)
             {
                 var safeName = _name.Replace("ViewModel", "");
-                LogCatcher.Append(new LogItemViewModel(_name, logLevel, eventId, state, exception, $"{safeName} - {formatter(state, exception)}"));
+                LogCatcher.Append(new LogItemViewModel(_name, logLevel, eventId, state, exception, formatter(state, exception), safeName));
             }
         }
     }

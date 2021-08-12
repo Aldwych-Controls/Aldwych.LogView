@@ -8,6 +8,9 @@
 
     <Application.Styles>
         <FluentTheme Mode="Dark"/>
+        <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Default.xaml"/>
         <StyleInclude Source="avares://Aldwych.LogView/BasicTheme.axaml"/>
+      <StyleInclude Source="avares://Aldwych.LogView/Styles/LogView.axaml"/>
+
     </Application.Styles>
 </Application>

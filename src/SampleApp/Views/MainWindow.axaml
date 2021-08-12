@@ -16,7 +16,50 @@
     </Design.DataContext>
 
   <DockPanel LastChildFill="True">
+
+    <Border DockPanel.Dock="Right"
+            MinWidth="250"
+            Background="{DynamicResource SystemChromeLowColor}"
+            BorderThickness="1,0,0,0"
+            BorderBrush="{DynamicResource SystemListMediumColor}">
+
+      <Grid RowDefinitions="Auto, *">
+        <TextBlock Text="Properties" Margin="10" FontSize="18" FontWeight="Bold"/>
+
+        <Grid Grid.Row="1" Margin="10, 10, 10, 0" ColumnDefinitions="Auto, *" RowDefinitions="Auto,10, Auto, 10, Auto">
+          
+          <TextBlock Grid.Row="0" Grid.Column="0" Text="Filter" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+          <ComboBox Name="filterCmb" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="5,0,5,0">
+            <ComboBoxItem Content="Trace"/>
+            <ComboBoxItem Content="Debug"/>
+            <ComboBoxItem Content="Information"/>
+            <ComboBoxItem Content="Warning"/>
+            <ComboBoxItem Content="Error"/>
+            <ComboBoxItem Content="Critical"/>
+            <ComboBoxItem Content="None"/>
+          </ComboBox>
+
+
+
+          <!-- Auto Scroll-->
+          <TextBlock Grid.Row="2" Grid.Column="0" Text="Auto Scroll" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+          <CheckBox Grid.Row="2" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="5,-5,5,0"  IsChecked="{Binding #logView.AutoScrollEnabled}"/>
+
+
+          <TextBlock Grid.Row="4" Grid.Column="0" Text="Level Type" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+          <ComboBox Grid.Row="4" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="5,0,5,0" SelectedIndex="{Binding #logView.LogLevelCellType}">
+            <ComboBoxItem Content="Text"/>
+            <ComboBoxItem Content="Dot"/>
+          </ComboBox>
+
+        </Grid>
+      </Grid>
+      
+    </Border>
+    
     <StackPanel DockPanel.Dock="Bottom" Spacing="10" Orientation="Horizontal" Margin="10">
+      <Button Content="Start Running" Command="{Binding StartRunningCommand}"/>
+
       <Button Content="Add Info" Command="{Binding AddInfoCommand}"/>
       <Button Content="Add Trace" Command="{Binding AddTraceCommand}"/>
       <Button Content="Add Error" Command="{Binding AddErrorCommand}"/>
@@ -25,7 +68,7 @@
       <Button Content="Add Warning" Command="{Binding AddWarningCommand}"/>
     </StackPanel>
     
-    <lv:LogView/>
+    <lv:LogView x:Name="logView" LogLevelFilter="{Binding #filterCmb.SelectedIndex, Source=PropertyChanged}" />
     
   </DockPanel>
 </Window>

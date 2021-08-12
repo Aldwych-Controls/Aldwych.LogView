@@ -2,7 +2,6 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
-using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Microsoft.Extensions.Logging;
 using ReactiveUI;
@@ -25,6 +24,11 @@ namespace Aldwych.Logging.ViewModels
             set => this.RaiseAndSetIfChanged(ref _eventId, value);
         }
 
+        public string Area
+        {
+            get => _area;
+            set => this.RaiseAndSetIfChanged(ref _area, value);
+        }
 
         public Exception Exception
         {
@@ -66,16 +70,18 @@ namespace Aldwych.Logging.ViewModels
             set => this.RaiseAndSetIfChanged(ref _foreground, value);
         }
 
-        public LogItemViewModel(string name, LogLevel logLevel, EventId eventId, object state, Exception exception, string message) 
+        public LogItemViewModel(string name, LogLevel logLevel, EventId eventId, object state, Exception exception, string message, string area) 
         {
             LogLevel = logLevel;
             EventId = eventId;
             State = state;
             Exception = exception;
             Message = message;
+            Area = area;
             Created = DateTime.Now;
-            _iconPath = IconPathForLogLevel(LogLevel);
             Foreground = BrushForLogLevel(LogLevel);
+
+            _iconPath = IconPathForLogLevel(LogLevel);
             _assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
         }
 
@@ -129,7 +135,6 @@ namespace Aldwych.Logging.ViewModels
             }
         }
 
-
         private readonly IAssetLoader _assets;
         private IBrush _foreground;
         private StreamGeometry _iconPath;
@@ -139,7 +144,7 @@ namespace Aldwych.Logging.ViewModels
         private Exception _exception;
         private EventId _eventId;
         private LogLevel _logLevel;
-
+        private string _area;
     }
 
 
